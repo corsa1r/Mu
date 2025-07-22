@@ -1013,6 +1013,12 @@ void CreateLogInScene()
     CUIMng::Instance().CreateLoginScene();
 
     CurrentProtocolState = REQUEST_JOIN_SERVER;
+
+    #ifdef LOCAL_HOST_DEBUG
+	szServerIpAddress = L"127.0.0.1";
+	g_ServerPort = 55901;
+    #endif
+
     CreateSocket(szServerIpAddress, g_ServerPort);
 
     GuildInputEnable = false;
