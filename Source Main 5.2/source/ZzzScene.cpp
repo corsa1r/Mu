@@ -1257,7 +1257,7 @@ bool MoveMainCamera()
         && CCameraMove::GetInstancePtr()->IsTourMode())
         CameraFOV = 65.0f;
     else
-        CameraFOV = 30.f;
+        CameraFOV = 35.f;
 
 #ifdef ENABLE_EDIT2
     {
@@ -1265,9 +1265,9 @@ bool MoveMainCamera()
         if (!g_pUIManager->IsInputEnable())
         {
             if (HIBYTE(GetAsyncKeyState(VK_INSERT)) == 128)
-                CameraAngle[2] += 15;
+                CameraAngle[2] += 1.5f;
             if (HIBYTE(GetAsyncKeyState(VK_DELETE)) == 128)
-                CameraAngle[2] -= 15;
+                CameraAngle[2] -= 1.5f;
             if (HIBYTE(GetAsyncKeyState(VK_HOME)) == 128)
                 CameraAngle[2] = -45;
 
