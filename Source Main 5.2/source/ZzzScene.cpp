@@ -1020,8 +1020,8 @@ void CreateLogInScene()
     #endif
 
     #ifdef PROD_RELEASE
-    szServerIpAddress = L"127.0.0.1";
-    g_ServerPort = 55901;
+	szServerIpAddress = L"127.0.0.1";   // TODO: Should be replaced with prod domain when available
+	g_ServerPort = 55901;               // Check if this port is correct for production
     #endif
 
     CreateSocket(szServerIpAddress, g_ServerPort);
