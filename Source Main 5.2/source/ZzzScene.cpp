@@ -1019,6 +1019,11 @@ void CreateLogInScene()
 	g_ServerPort = 55901;
     #endif
 
+    #ifdef PROD_RELEASE
+    szServerIpAddress = L"127.0.0.1";
+    g_ServerPort = 55901;
+    #endif
+
     CreateSocket(szServerIpAddress, g_ServerPort);
 
     GuildInputEnable = false;
