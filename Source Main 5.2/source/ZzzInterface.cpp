@@ -8433,12 +8433,52 @@ void RenderSwichState()
     }
 }
 
+void RenderSingleMonsterHPOnHead(CHARACTER* c, OBJECT* o)
+{
+    float Width = 68.0f;
+    wchar_t Text[100];
+
+    vec3_t      Position;
+    int         ScreenX, ScreenY;
+
+    Vector(o->Position[0], o->Position[1], o->Position[2] + o->BoundingBoxMax[2] + 100.f, Position);
+    Projection(Position, &ScreenX, &ScreenY);
+    ScreenX -= (int)(Width / 2);
+
+    float healthRatio = abs(c->HealthStatus);
+    float healthWidth = Width * healthRatio;
+
+    EnableAlphaTest();
+    glColor4f(0.f, 0.f, 0.f, 0.80f);
+    RenderColor((float)(ScreenX + 1), (float)(ScreenY + 1), Width + 2.f, 6.f);
+
+    glColor4f(1.f, 0.f, 0.f, 0.88f);
+    RenderColor((float)(ScreenX + 2), (float)(ScreenY + 2), healthWidth, 4.f);
+
+    DisableAlphaBlend();
+    glColor3f(1.f, 1.f, 1.f);
+}
+
+void RenderMonsterHP()
+{
+    for (int i = 0; i < MAX_CHARACTERS_CLIENT; i++)
+    {
+        CHARACTER* c = &CharactersClient[i];
+        OBJECT* o = &c->Object;
+        if (o->Live && o->Visible && o->Kind == KIND_MONSTER && c->Dead == 0)
+        {
+            RenderSingleMonsterHPOnHead(c, o);
+        }
+    }
+}
+
 void RenderInterface(bool Render)
 {
     g_pRenderText->SetTextColor(255, 255, 255, 255);
 
     RenderOutSides();
     RenderPartyHP();
+    RenderMonsterHP();
 
     RenderSwichState();
     battleCastle::RenderBuildTimes();
@@ -8754,7 +8794,7 @@ void RenderPartyHP()
 
         int stepHP = min(10, p->stepHP);
 
-        glColor3f(250.f / 255.f, 10 / 255.f, 0.f);
+        glColor3f(50.f / 255.f, 200.f / 255.f, 50.f / 255.f);
         for (int k = 0; k < stepHP; ++k)
         {
             RenderColor((float)(ScreenX + 2 + (k * 4)), (float)(ScreenY + 2), 3.f, 2.f);
