@@ -29,6 +29,7 @@ float   g_fCameraCustomDistance = 0.f;
 bool    FogEnable = false;
 GLfloat FogDensity = 0.0004f;
 GLfloat FogColor[4] = { 30 / 256.f,20 / 256.f,10 / 256.f, };
+bool    g_bSupportedMSAA = false;
 
 bool _isVSyncAvailable = false;
 bool _isVSyncEnabled = false;

@@ -8433,9 +8433,9 @@ void RenderSwichState()
     }
 }
 
-void RenderSingleMonsterHPOnHead(CHARACTER* c, OBJECT* o)
+void RenderSingleMonsterHPOnHead(CHARACTER* c, OBJECT* o, bool showName, bool isShield, float resourceShown)
 {
-    float Width = 68.0f;
+    float Width = 45;
     wchar_t Text[100];
 
     vec3_t      Position;
@@ -8445,15 +8445,28 @@ void RenderSingleMonsterHPOnHead(CHARACTER* c, OBJECT* o)
     Projection(Position, &ScreenX, &ScreenY);
     ScreenX -= (int)(Width / 2);
 
-    float healthRatio = abs(c->HealthStatus);
+    if (isShield) ScreenY -= 6;
+    
+    if (showName) {
+        swprintf(Text, c->ID);
+        g_pRenderText->SetTextColor(255, 230, 210, 255);
+        g_pRenderText->RenderText(ScreenX + 2, ScreenY - 6, Text);
+    }
+
+    float healthRatio = fabs(resourceShown);
     float healthWidth = Width * healthRatio;
 
     EnableAlphaTest();
     glColor4f(0.f, 0.f, 0.f, 0.80f);
-    RenderColor((float)(ScreenX + 1), (float)(ScreenY + 1), Width + 2.f, 6.f);
+    RenderColor((float)(ScreenX + 1), (float)(ScreenY + 1), Width + 2.f, 4.f);
 
-    glColor4f(1.f, 0.f, 0.f, 0.88f);
-    RenderColor((float)(ScreenX + 2), (float)(ScreenY + 2), healthWidth, 4.f);
+    if (isShield) {
+		glColor4f(1.0f, 0.8f, 0.0f, 0.88f); // Yellow for shield
+    }
+    else {
+		glColor4f(1.f, 0.f, 0.f, 0.88f); // Red for health
+    }
+    RenderColor((float)(ScreenX + 2), (float)(ScreenY + 2), healthWidth, 2.f);
 
     DisableAlphaBlend();
     glColor3f(1.f, 1.f, 1.f);
@@ -8467,7 +8480,16 @@ void RenderMonsterHP()
         OBJECT* o = &c->Object;
         if (o->Live && o->Visible && o->Kind == KIND_MONSTER && c->Dead == 0)
         {
-            RenderSingleMonsterHPOnHead(c, o);
+            RenderSingleMonsterHPOnHead(c, o, true, false, c->HealthStatus);
+        }
+        if (o->Live && o->Visible && o->Kind == KIND_PLAYER && c->Dead == 0)
+        {
+			// Cannot enable shield rendering for players
+			// there is an issue that the ShieldStatus is not sent correctly by the server and it is the same as the HealthStatus
+			// further investigation is needed to fix this issue
+            // RenderSingleMonsterHPOnHead(c, o, false, true, c->ShieldStatus); // Shield
+
+            RenderSingleMonsterHPOnHead(c, o, false, false, c->HealthStatus); // HP
         }
     }
 }

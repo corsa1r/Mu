@@ -1072,58 +1072,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLin
     }
     RegCloseKey(hKey);
 
-    switch (m_Resolution)
-    {
-    case 0:
-        WindowWidth = 640;
-        WindowHeight = 480;
-        break;
-    case 1:
-        WindowWidth = 800;
-        WindowHeight = 600;
-        break;
-    case 2:
-        WindowWidth = 1024;
-        WindowHeight = 768;
-        break;
-    case 3:
-        WindowWidth = 1280;
-        WindowHeight = 1024;
-        break;
-    case 4:
-        WindowWidth = 1600;
-        WindowHeight = 1200;
-        break;
-    case 5:
-        WindowWidth = 1864;
-        WindowHeight = 1400;
-        break;
-    case 6:
-        WindowWidth = 1600;
-        WindowHeight = 900;
-        break;
-    case 7:
-        WindowWidth = 1600;
-        WindowHeight = 1280;
-        break;
-    case 8:
-        WindowWidth = 1680;
-        WindowHeight = 1050;
-        break;
-    case 9:
-        WindowWidth = 1920;
-        WindowHeight = 1080;
-        break;
-    case 10:
-        WindowWidth = 2560;
-        WindowHeight = 1440;
-        break;
-    default:
-        WindowWidth = 640;
-        WindowHeight = 480;
-        break;
-    }
-
     GameConfig config = readConfig();
 
 	WindowWidth = config.width;
@@ -1132,7 +1080,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLin
 
     g_fScreenRate_x = (float)WindowWidth / 640;
     g_fScreenRate_y = (float)WindowHeight / 480;
-
 
     pMultiLanguage = new CMultiLanguage(g_strSelectedML);
 
@@ -1181,7 +1128,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLin
 
     g_hInst = hInstance;
 
-    wchar_t* windowName = L"MU Online";
+    wchar_t* windowName = L"Bloodlust MU Online Project";
     WNDCLASS wndClass;
 
     wndClass.style = CS_HREDRAW | CS_VREDRAW;
@@ -1292,10 +1239,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLin
     if (IsVSyncAvailable())
     {
         EnableVSync();
-        SetTargetFps(-1); // unlimited
     }
+    SetTargetFps(60);
 
-    FontHeight = static_cast<int>(std::ceil(12 + ((WindowHeight - 480) / 200.f)));
+    FontHeight = static_cast<int>(std::ceil(16 + ((WindowHeight - 480) / 200.f)));
 
     int nFixFontHeight = WindowHeight <= 600 ? 14 : 15;
     int nFixFontSize;

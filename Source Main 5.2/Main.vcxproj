@@ -121,7 +121,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)source\;$(SolutionDir)dependencies\include;$(SolutionDir)dependencies\netcore\includes</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>LOCAL_HOST_DEBUG; WIN32;_DEBUG;_WINDOWS;_FOREIGN_DEBUG;_LANGUAGE_FOREIGN;_LANGUAGE_ENG;UNICODE;_ALLOW_RTCc_IN_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PROD_RELEASE; LOCAL_HOST_DEBUG; WIN32;_DEBUG;_WINDOWS;_FOREIGN_DEBUG;_LANGUAGE_FOREIGN;_LANGUAGE_ENG;UNICODE;_ALLOW_RTCc_IN_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
