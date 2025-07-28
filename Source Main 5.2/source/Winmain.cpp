@@ -51,6 +51,83 @@
 
 #include "NewUISystem.h"
 
+#include <fstream>
+#include <string>
+#include <iostream>
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
+struct GameConfig {
+    int width;
+    int height;
+    bool fullscreen;
+};
+
+// Function to get the directory of the executable
+std::string getExecutableDir() {
+    char path[1024];
+#ifdef _WIN32
+    GetModuleFileNameA(NULL, path, sizeof(path));
+#else
+    ssize_t count = readlink("/proc/self/exe", path, sizeof(path));
+    path[count] = '\0';
+#endif
+    std::string pathStr = path;
+    // Remove the executable name to get the directory
+    size_t lastSlash = pathStr.find_last_of("/\\");
+    if (lastSlash != std::string::npos) {
+        return pathStr.substr(0, lastSlash);
+    }
+    return "."; // Fallback to current working directory
+}
+
+GameConfig readConfig() {
+    std::string configPath = getExecutableDir() + "\\main-config.ini";
+    GameConfig config = { 1920, 1080, false }; // Default values
+    std::ifstream file(configPath);
+    std::string line;
+
+    if (!file.is_open()) {
+        std::cerr << "Could not open config file: " << configPath << std::endl;
+        return config;
+    }
+
+    while (std::getline(file, line)) {
+        // Remove whitespace and comments
+        line.erase(0, line.find_first_not_of(" \t"));
+        if (line.empty() || line[0] == ';' || line[0] == '#' || line[0] == '[') {
+            continue;
+        }
+
+        // Parse key-value pairs
+        size_t pos = line.find('=');
+        if (pos != std::string::npos) {
+            std::string key = line.substr(0, pos);
+            std::string value = line.substr(pos + 1);
+
+            // Trim whitespace
+            key.erase(key.find_last_not_of(" \t") + 1);
+            value.erase(0, value.find_first_not_of(" \t"));
+
+            if (key == "width") {
+                config.width = std::stoi(value);
+            }
+            else if (key == "height") {
+                config.height = std::stoi(value);
+            }
+            else if (key == "fullscreen") {
+                config.fullscreen = (value == "true" || value == "1");
+            }
+        }
+    }
+
+    file.close();
+    return config;
+}
+
 CUIMercenaryInputBox* g_pMercenaryInputBox = nullptr;
 CUITextInputBox* g_pSingleTextInputBox = nullptr;
 CUITextInputBox* g_pSinglePasswdInputBox = nullptr;
@@ -1046,6 +1123,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLin
         WindowHeight = 480;
         break;
     }
+
+    GameConfig config = readConfig();
+
+	WindowWidth = config.width;
+	WindowHeight = config.height;
+	// TODO Add support for full screen mode config.fullscreen
 
     g_fScreenRate_x = (float)WindowWidth / 640;
     g_fScreenRate_y = (float)WindowHeight / 480;

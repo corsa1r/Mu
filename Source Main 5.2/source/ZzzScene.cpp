@@ -1020,8 +1020,8 @@ void CreateLogInScene()
     #endif
 
     #ifdef PROD_RELEASE
-	szServerIpAddress = L"185.230.5.156";   // TODO: Should be replaced with prod domain when available
-	g_ServerPort = 55901;               // Check if this port is correct for production
+	szServerIpAddress = L"46.101.250.203";
+	g_ServerPort = 55901;
     #endif
 
     CreateSocket(szServerIpAddress, g_ServerPort);
@@ -1268,7 +1268,7 @@ bool MoveMainCamera()
         && CCameraMove::GetInstancePtr()->IsTourMode())
         CameraFOV = 65.0f;
     else
-        CameraFOV = 35.f;
+        CameraFOV = 30.f;
 
 #ifdef ENABLE_EDIT2
     {
