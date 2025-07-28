@@ -99,18 +99,15 @@ bool SEASON3B::CNewUINameWindow::Render()
 
 void SEASON3B::CNewUINameWindow::RenderName()
 {
-    if (g_bGMObservation == true)
+    for (int i = 0; i < MAX_CHARACTERS_CLIENT; i++)
     {
-        for (int i = 0; i < MAX_CHARACTERS_CLIENT; i++)
+        CHARACTER* c = &CharactersClient[i];
+        OBJECT* o = &c->Object;
+        if (o->Live && o->Kind == KIND_PLAYER)
         {
-            CHARACTER* c = &CharactersClient[i];
-            OBJECT* o = &c->Object;
-            if (o->Live && o->Kind == KIND_PLAYER)
+            if (IsShopTitleVisible(c) == false)
             {
-                if (IsShopTitleVisible(c) == false)
-                {
-                    CreateChat(c->ID, L"", c);
-                }
+                CreateChat(c->ID, L"", c);
             }
         }
     }
