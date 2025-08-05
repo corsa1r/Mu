@@ -63,6 +63,21 @@ bool CMoveCommandData::Create(const std::wstring& filename)
     }
     fclose(fp);
 
+    m_listMoveInfoData.push_back(new MOVEINFODATA{
+        {44, L"Loren Market", L"Loren Market", 1, 1, 0, 0},
+        true, false, false
+    });
+
+    m_listMoveInfoData.push_back(new MOVEINFODATA{
+        {50, L"Crywolf Fortress", L"Crywolf Fortress", 380, 380, 5000, 0},
+        true, false, false
+    });
+
+    m_listMoveInfoData.push_back(new MOVEINFODATA{
+        {51, L"Balgass Barracks", L"Balgass Barracks", 380, 380, 10000, 0},
+        true, false, false
+    });
+
     return true;
 }
 

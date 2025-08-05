@@ -1076,7 +1076,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLin
 
 	WindowWidth = config.width;
 	WindowHeight = config.height;
-	// TODO Add support for full screen mode config.fullscreen
+	g_bUseWindowMode = !config.fullscreen;
+	g_bUseFullscreenMode = config.fullscreen;
 
     g_fScreenRate_x = (float)WindowWidth / 640;
     g_fScreenRate_y = (float)WindowHeight / 480;
@@ -1148,22 +1149,30 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLin
         return 0;
     }
 
-	// For simple development, we can start with only one window.
-    RECT rc = { 0, 0, WindowWidth, WindowHeight };
-    AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-    g_hWnd = CreateWindow(
-        windowName,
-        windowName,
-        WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        rc.right - rc.left,
-        rc.bottom - rc.top,
-        nullptr,
-        nullptr,
-        hInstance,
-        nullptr
-    );
+    if (g_bUseWindowMode == TRUE)
+    {
+        RECT rc = { 0, 0, WindowWidth, WindowHeight };
+        AdjustWindowRect(&rc, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_BORDER | WS_CLIPCHILDREN, NULL);
+        g_hWnd = CreateWindow(
+            windowName, windowName,
+            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_BORDER | WS_CLIPCHILDREN,
+            (GetSystemMetrics(SM_CXSCREEN) - rc.right) / 2,
+            (GetSystemMetrics(SM_CYSCREEN) - rc.bottom) / 2,
+            rc.right - rc.left,
+            rc.bottom - rc.top,
+            nullptr, nullptr, hInstance, nullptr);
+    }
+    else
+    {
+        g_hWnd = CreateWindowEx(
+            WS_EX_TOPMOST | WS_EX_APPWINDOW,
+            windowName, windowName,
+            WS_POPUP,
+            0, 0,
+            WindowWidth,
+            WindowHeight,
+            nullptr, nullptr, hInstance, nullptr);
+    }
     
     g_ErrorReport.Write(L"> Start window success.\r\n");
 

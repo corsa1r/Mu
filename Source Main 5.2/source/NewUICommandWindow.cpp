@@ -86,7 +86,6 @@ void SEASON3B::CNewUICommandWindow::InitButtons()
     m_BtnCommand[COMMAND_GUILDUNION].ChangeText(GlobalText[1352]);
     m_BtnCommand[COMMAND_RIVAL].ChangeText(GlobalText[1321]);
     m_BtnCommand[COMMAND_RIVALOFF].ChangeText(GlobalText[1322]);
-    m_BtnCommand[COMMAND_ADD_FRIEND].ChangeText(GlobalText[947]);
     m_BtnCommand[COMMAND_FOLLOW].ChangeText(GlobalText[948]);
     m_BtnCommand[COMMAND_BATTLE].ChangeText(GlobalText[949]);
 }
@@ -354,11 +353,6 @@ void SEASON3B::CNewUICommandWindow::RunCommand()
                 CommandCancelGuildRival(pSelectedCha);
             }break;
 
-            case COMMAND_ADD_FRIEND:
-            {
-                CommandAddFriend(pSelectedCha);
-            }break;
-
             case COMMAND_FOLLOW:
             {
                 CommandFollow(Selectindex);
@@ -572,17 +566,6 @@ bool SEASON3B::CNewUICommandWindow::CommandCancelGuildRival(CHARACTER* pSelected
     SendRequestAction(Hero->Object, AT_RESPECT1);
     SocketClient->ToGameServer()->SendGuildRelationshipChangeRequest(0x02, 0x02, pSelectedCha->Key);
     return true;
-}
-
-bool SEASON3B::CNewUICommandWindow::CommandAddFriend(CHARACTER* pSelectedCha)
-{
-    if (g_pWindowMgr->IsServerEnable() == TRUE && pSelectedCha != nullptr)
-    {
-        SocketClient->ToGameServer()->SendFriendAddRequest(pSelectedCha->ID);
-        return true;
-    }
-
-    return false;
 }
 
 bool SEASON3B::CNewUICommandWindow::CommandFollow(int iSelectedChaIndex)

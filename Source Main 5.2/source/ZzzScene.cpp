@@ -1016,12 +1016,12 @@ void CreateLogInScene()
 
     #ifdef LOCAL_HOST_DEBUG
 	szServerIpAddress = L"127.0.0.1";
-	g_ServerPort = 55901;
+	g_ServerPort = 55902;
     #endif
 
     #ifdef PROD_RELEASE
 	szServerIpAddress = L"46.101.250.203";
-	g_ServerPort = 55901;
+	g_ServerPort = 55902;
     #endif
 
     CreateSocket(szServerIpAddress, g_ServerPort);

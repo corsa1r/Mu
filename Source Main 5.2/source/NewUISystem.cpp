@@ -1069,7 +1069,7 @@ void CNewUISystem::Show(DWORD dwKey)
     }
     else if (dwKey == INTERFACE_MINI_MAP)
     {
-        m_pNewMiniMap->OpenningProcess();
+      m_pNewMiniMap->OpenningProcess();
     }
     else if (dwKey == INTERFACE_GENSRANKING)
     {

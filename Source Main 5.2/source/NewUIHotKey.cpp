@@ -128,10 +128,10 @@ bool SEASON3B::CNewUIHotKey::UpdateKeyEvent()
         return false;
     }
 
-    if (SEASON3B::IsPress(VK_TAB) == false && g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_MINI_MAP) == true)
-    {
-        return false;
-    }
+     if (SEASON3B::IsPress(VK_TAB) == false && g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_MINI_MAP) == true)
+     {
+         // return false;
+     }
 
     if (g_isCharacterBuff((&Hero->Object), eBuff_DuelWatch))
     {
